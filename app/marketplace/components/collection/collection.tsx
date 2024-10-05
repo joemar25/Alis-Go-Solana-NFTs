@@ -1,17 +1,9 @@
 import "./collection.css";
 import Trending from "../trending/trending";
 
-const Collection = ({ displayMode }: { displayMode: string }) => {
-  let collectionContainerClass;
-
-  if (displayMode === "dark") {
-    collectionContainerClass = "collection--container";
-  } else {
-    collectionContainerClass = "collection--container-lm";
-  }
-
+const Collection = () => {
   return (
-    <main className={collectionContainerClass}>
+    <main className="collection--container dark:bg-gray-800 dark:text-white bg-white text-black">
       <div>
         <h1>Collections</h1>
         <div className="label--container">
@@ -30,7 +22,7 @@ const Collection = ({ displayMode }: { displayMode: string }) => {
           <div className="selector--item">Music</div>
         </div>
       </div>
-      <Trending displayMode={displayMode} />
+      <Trending />
     </main>
   );
 };

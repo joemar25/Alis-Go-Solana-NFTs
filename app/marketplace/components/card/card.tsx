@@ -2,31 +2,30 @@ import React from "react";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import "./card.css";
 import NFT from "./images/NFT.svg";
-
 import Image from "next/image";
 
-const Card = ({
-  title,
-  displayMode,
-  image,
-  floor_price,
-}: {
+type CardProps = {
   title?: string;
-  displayMode: string;
   image?: string;
   floor_price?: string;
-}) => {
-  const cardContainerClass = displayMode === "dark" ? "card--container" : "card--container-lm";
+};
+
+const Card: React.FC<CardProps> = ({ title, image, floor_price }) => {
+  const formattedPrice = floor_price
+    ? (Number(floor_price) / LAMPORTS_PER_SOL).toFixed(2)
+    : "20.00";
+
+  const isAnimatedImage = image?.endsWith(".gif");
 
   return (
-    <div className={cardContainerClass}>
+    <div className="card--container dark:bg-gray-800 dark:text-white bg-white text-black">
       <div className="nft-image-container">
         <Image
           width={125}
           height={125}
           src={image ? image : NFT}
           alt={title ? `${title} NFT image` : "NFT image"}
-          unoptimized={image?.endsWith('.gif')} // Optionally unoptimized if animated
+          unoptimized={isAnimatedImage}
         />
       </div>
       <div className="title">{title || "Liquid Wave"}</div>
@@ -39,7 +38,7 @@ const Card = ({
       </div>
       <div className="vals">
         <div>3h 1m 50s</div>
-        <div>{floor_price ? (Number(floor_price) / LAMPORTS_PER_SOL).toFixed(2) : "20.00"} SOL</div>
+        <div>{formattedPrice} SOL</div>
       </div>
       <button
         type="button"

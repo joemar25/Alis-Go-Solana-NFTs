@@ -1,13 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        remotePatterns: [
-            {
-              protocol: 'https',
-              hostname: '**'
-            },
-          ],
-      },
-}
+  images: {
+    domains: ["ipfs.io"],
 
-module.exports = nextConfig
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+  },
+};
+
+module.exports = nextConfig;

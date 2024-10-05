@@ -1,15 +1,14 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { NextPage } from "next";
 import Sidebar from "./components/sidebar/sidebar";
-import Header from "./components/header/header";
 import Dashboard from "./components/dashboard/dashboard";
 import Bid from "./components/bid/bid";
 import Collection from "./components/collection/collection";
 import Profile from "./components/profile/profile";
 import Settings from "./components/settings/settings";
-
-import { useState, useEffect } from "react";
-import { NextPage } from "next";
+import { Header } from "./components/header/header";
 
 type NFTData = {
   id: string;
@@ -18,51 +17,58 @@ type NFTData = {
   auctionTime: string;
   currentBid: string;
   price: string;
+  image: string;
 }[];
 
 type ComponentName = 'Dashboard' | 'Bid' | 'Collection' | 'Profile' | 'Settings';
-type DisplayMode = 'dark' | 'light';
 
 const Marketplace: NextPage = () => {
   const [selectedComponent, setSelectedComponent] = useState<ComponentName>('Dashboard');
-  const [displayMode, setDisplayMode] = useState<DisplayMode>('dark');
   const [data, setData] = useState<NFTData>([]);
 
   useEffect(() => {
-    // Fetch nft data from API route
     const fetchNfts = async () => {
-      const res = await fetch("/api/nftData");
-      const result = await res.json();
-      setData(result.data);
+      try {
+        const res = await fetch("/api/nftData");
+        const result = await res.json();
+
+        const transformedData = result.data.map((nft: any) => ({
+          ...nft,
+          image: nft.image || "/path/to/default/image.svg",
+        }));
+
+        setData(transformedData);
+      } catch (error) {
+        console.error("Error fetching NFT data:", error);
+      }
     };
 
-    fetchNfts().catch(console.error);
+    fetchNfts();
   }, []);
 
-  let containerClass = displayMode === "dark" ? "App" : "App-lm";
+  const renderComponent = () => {
+    switch (selectedComponent) {
+      case "Dashboard":
+        return <Dashboard data={data} />;
+      case "Bid":
+        return <Bid />;
+      case "Collection":
+        return <Collection />;
+      case "Profile":
+        return <Profile />;
+      case "Settings":
+        return <Settings />;
+      default:
+        return null;
+    }
+  };
 
   return (
-    <div className={containerClass}>
-      <Sidebar
-        selectedComponent={selectedComponent}
-        changeComponent={setSelectedComponent}
-        displayMode={displayMode}
-      />
-      <div className="container">
-        <Header displayMode={displayMode} setDisplayMode={setDisplayMode} />
-        {selectedComponent === "Dashboard" && (
-          <Dashboard displayMode={displayMode} data={data} />
-        )}
-        {selectedComponent === "Bid" && <Bid displayMode={displayMode} />}
-        {selectedComponent === "Collection" && (
-          <Collection displayMode={displayMode} />
-        )}
-        {selectedComponent === "Profile" && (
-          <Profile displayMode={displayMode} />
-        )}
-        {selectedComponent === "Settings" && (
-          <Settings displayMode={displayMode} />
-        )}
+    <div className="flex">
+      <Sidebar selectedComponent={selectedComponent} changeComponent={setSelectedComponent} />
+      <div className="flex-1 p-6">
+        <Header />
+        {renderComponent()}
       </div>
     </div>
   );

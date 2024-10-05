@@ -1,19 +1,10 @@
 import React, { useState } from 'react';
-import Image from "next/image";
-import pfp from "../header/images/Avatar.svg";
 import "./settings.css";
-
-interface SettingsProps {
-  displayMode: "dark" | "light";
-}
 
 type TabName = "Profile" | "Application" | "Security" | "Activity" | "Payment Method" | "API";
 
-const Settings: React.FC<SettingsProps> = ({ displayMode }) => {
+const Settings: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState<TabName>("Profile");
-
-  const getClassNames = (baseClass: string): string =>
-    displayMode === "dark" ? baseClass : `${baseClass}-lm`;
 
   const settingsTabs: TabName[] = ["Profile", "Application", "Security", "Activity", "Payment Method", "API"];
 
@@ -23,99 +14,80 @@ const Settings: React.FC<SettingsProps> = ({ displayMode }) => {
         return (
           <>
             <div className="user-update--container">
-              <UserProfile getClassNames={getClassNames} />
-              <UpdateProfile getClassNames={getClassNames} />
+              <UserProfile />
+              <UpdateProfile />
             </div>
-            <PersonalInfo getClassNames={getClassNames} />
+            <PersonalInfo />
           </>
         );
       case "Application":
-        return <ApplicationSettings getClassNames={getClassNames} />;
+        return <ApplicationSettings />;
       case "Security":
-        return <SecuritySettings getClassNames={getClassNames} />;
+        return <SecuritySettings />;
       case "Activity":
-        return <ActivitySettings getClassNames={getClassNames} />;
+        return <ActivitySettings />;
       case "Payment Method":
-        return <PaymentMethodSettings getClassNames={getClassNames} />;
+        return <PaymentMethodSettings />;
       case "API":
-        return <APISettings getClassNames={getClassNames} />;
+        return <APISettings />;
     }
   };
 
   return (
-    <main className={getClassNames("settings--container")}>
-      {/* ... rest of the component remains the same ... */}
+    <main className="settings--container dark:bg-gray-800 dark:text-white bg-white text-black">
+      {renderTabContent()}
     </main>
   );
 };
 
-interface SubComponentProps {
-  getClassNames: (baseClass: string) => string;
-}
 
-const UserProfile: React.FC<SubComponentProps> = ({ getClassNames }) => {
-  const userInfoClass = getClassNames("user-info");
-
-  return (
-    <section className="user--container">
-      {/* ... component content remains the same ... */}
-    </section>
-  );
-};
-
-const UpdateProfile: React.FC<SubComponentProps> = ({ getClassNames }) => {
-  const updateProfileClass = getClassNames("update-profile");
-
-  return (
-    <section className="profile--container">
-      {/* ... component content remains the same ... */}
-    </section>
-  );
-};
-
-const PersonalInfo: React.FC<SubComponentProps> = ({ getClassNames }) => {
-  const personalInfoClass = getClassNames("personal--info");
-
-  return (
-    <section className={personalInfoClass}>
-      {/* ... component content remains the same ... */}
-    </section>
-  );
-};
-
-const ApplicationSettings: React.FC<SubComponentProps> = ({ getClassNames }) => (
-  <section className={getClassNames("application-settings")}>
-    <h2>Application Settings</h2>
-    {/* Add application settings content here */}
+const UserProfile: React.FC = () => (
+  <section className="user--container dark:bg-gray-700 dark:text-white bg-gray-100 text-black">
+    {/* User profile content here */}
   </section>
 );
 
-const SecuritySettings: React.FC<SubComponentProps> = ({ getClassNames }) => (
-  <section className={getClassNames("security-settings")}>
-    <h2>Security Settings</h2>
-    {/* Add security settings content here */}
+const UpdateProfile: React.FC = () => (
+  <section className="profile--container dark:bg-gray-700 dark:text-white bg-gray-100 text-black">
+    {/* Update profile content here */}
   </section>
 );
 
-const ActivitySettings: React.FC<SubComponentProps> = ({ getClassNames }) => (
-  <section className={getClassNames("activity-settings")}>
-    <h2>Activity Settings</h2>
-    {/* Add activity settings content here */}
+const PersonalInfo: React.FC = () => (
+  <section className="personal--info dark:bg-gray-700 dark:text-white bg-gray-100 text-black">
+    {/* Personal info content here */}
   </section>
 );
 
-const PaymentMethodSettings: React.FC<SubComponentProps> = ({ getClassNames }) => (
-  <section className={getClassNames("payment-settings")}>
-    <h2>Payment Method Settings</h2>
-    {/* Add payment method settings content here */}
+const ApplicationSettings: React.FC = () => (
+  <section className="application-settings dark:bg-gray-700 dark:text-white bg-gray-100 text-black">
+    {/* Application settings content here */}
   </section>
 );
 
-const APISettings: React.FC<SubComponentProps> = ({ getClassNames }) => (
-  <section className={getClassNames("api-settings")}>
-    <h2>API Settings</h2>
-    {/* Add API settings content here */}
+const SecuritySettings: React.FC = () => (
+  <section className="security-settings dark:bg-gray-700 dark:text-white bg-gray-100 text-black">
+    {/* Security settings content here */}
   </section>
 );
+
+const ActivitySettings: React.FC = () => (
+  <section className="activity-settings dark:bg-gray-700 dark:text-white bg-gray-100 text-black">
+    {/* Activity settings content here */}
+  </section>
+);
+
+const PaymentMethodSettings: React.FC = () => (
+  <section className="payment-settings dark:bg-gray-700 dark:text-white bg-gray-100 text-black">
+    {/* Payment method settings content here */}
+  </section>
+);
+
+const APISettings: React.FC = () => (
+  <section className="api-settings dark:bg-gray-700 dark:text-white bg-gray-100 text-black">
+    {/* API settings content here */}
+  </section>
+);
+
 
 export default Settings;

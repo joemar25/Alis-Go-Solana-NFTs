@@ -53,3 +53,7 @@ body {
 main button {
   width: 6.125rem;
 }
+
+* {
+  user-select: none;
+}

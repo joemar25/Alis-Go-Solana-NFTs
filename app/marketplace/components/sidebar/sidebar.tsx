@@ -1,28 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import "./sidebar.css";
 
-// Import all images
 import Logo from "./images/Logo.svg";
-import Dashboard from "./images/DashBoard.svg";
-import Bid from "./images/Bid.svg";
-import Collection from "./images/Collection.svg";
-import Profile from "./images/Profile.svg";
-import Settings from "./images/Settings.svg";
-import Logout from "./images/Logout.svg";
+import DashboardIcon from "./images/DashBoard.svg";
+import BidIcon from "./images/Bid.svg";
+import CollectionIcon from "./images/Collection.svg";
+import ProfileIcon from "./images/Profile.svg";
+import SettingsIcon from "./images/Settings.svg";
+import LogoutIcon from "./images/Logout.svg";
 import selectedDashboard from "./images/selectedDashBoard.svg";
 import selectedBid from "./images/selectedBid.svg";
 import selectedCollection from "./images/selectedCollection.svg";
 import selectedProfile from "./images/selectedProfile.svg";
 
-// Define types
 type ComponentName = 'Dashboard' | 'Bid' | 'Collection' | 'Profile' | 'Settings';
-type DisplayMode = 'dark' | 'light';
 
 interface SidebarProps {
   selectedComponent: ComponentName;
   changeComponent: (component: ComponentName) => void;
-  displayMode: DisplayMode;
 }
 
 interface NavItem {
@@ -33,26 +29,28 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { name: 'Dashboard', icon: Dashboard, selectedIcon: selectedDashboard, label: 'Dashboard' },
-  { name: 'Bid', icon: Bid, selectedIcon: selectedBid, label: 'Bidding' },
-  { name: 'Collection', icon: Collection, selectedIcon: selectedCollection, label: 'Collection' },
-  { name: 'Profile', icon: Profile, selectedIcon: selectedProfile, label: 'User Profile' },
-  { name: 'Settings', icon: Settings, selectedIcon: Settings, label: 'Settings' },
+  { name: 'Dashboard', icon: DashboardIcon, selectedIcon: selectedDashboard, label: 'Dashboard' },
+  { name: 'Bid', icon: BidIcon, selectedIcon: selectedBid, label: 'Bidding' },
+  { name: 'Collection', icon: CollectionIcon, selectedIcon: selectedCollection, label: 'Collection' },
+  { name: 'Profile', icon: ProfileIcon, selectedIcon: selectedProfile, label: 'User Profile' },
+  { name: 'Settings', icon: SettingsIcon, selectedIcon: SettingsIcon, label: 'Settings' },
 ];
 
-const Sidebar: React.FC<SidebarProps> = ({
-  selectedComponent,
-  changeComponent,
-  displayMode,
-}) => {
-  const containerClass = displayMode === "dark" ? "sb--container" : "sb--container-lm";
+const Sidebar: React.FC<SidebarProps> = ({ selectedComponent, changeComponent }) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
-    <nav className={containerClass} aria-label="Main Navigation">
+    <nav className="sb--container dark:bg-gray-800 bg-white" aria-label="Main Navigation">
       <div className="sb--icon-container">
-        <div id="logo">
-          <Image src={Logo} alt="Company Logo" />
-        </div>
+        {isClient && (
+          <div id="logo">
+            <Image src={Logo} alt="Company Logo" unoptimized />
+          </div>
+        )}
         <ul id="menu" role="menu">
           {navItems.map((item) => (
             <li key={item.name} role="none">
@@ -63,18 +61,23 @@ const Sidebar: React.FC<SidebarProps> = ({
                 aria-current={selectedComponent === item.name ? "page" : undefined}
                 role="menuitem"
               >
-                <Image
-                  src={selectedComponent === item.name ? item.selectedIcon : item.icon}
-                  alt=""
-                />
+                {isClient && (
+                  <Image
+                    src={selectedComponent === item.name ? item.selectedIcon : item.icon}
+                    alt=""
+                    unoptimized
+                  />
+                )}
               </button>
             </li>
           ))}
         </ul>
         <div id="logout">
-          <button type="button" aria-label="Logout">
-            <Image src={Logout} alt="" />
-          </button>
+          {isClient && (
+            <button type="button" aria-label="Logout">
+              <Image src={LogoutIcon} alt="" unoptimized />
+            </button>
+          )}
         </div>
       </div>
     </nav>

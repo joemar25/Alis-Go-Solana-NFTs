@@ -1,96 +1,69 @@
-import "./dashboard.css";
+import React, { useEffect, useState } from "react";
 import Trending from "../trending/trending";
 import Featured from "./images/Featured.svg";
 import Avatar from "./images/Avatar.svg";
-
 import Image from "next/image";
 
-type NFTData = {
+// Unified type for NFTs
+type NFT = {
   id: string;
   title: string;
   author: string;
   auctionTime: string;
   currentBid: string;
   price: string;
+  image: string;
 }[];
 
-const Dashboard = ({
-  displayMode,
-  data,
-}: {
-  displayMode: string;
-  data: NFTData;
-}) => {
-  // Utility function to return classes based on displayMode
-  const getClassNames = (baseClass: string) =>
-    displayMode === "dark" ? baseClass : `${baseClass}-lm`;
+const Dashboard = ({ data }: { data: NFT }) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
-    <main className={getClassNames("cont--container")}>
-      <div className="discover--container">
-        <div className="discover">
-          <div className={getClassNames("disc--title")}>
+    <main className="p-6">
+      <div className="flex flex-col md:flex-row items-center bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md mb-6">
+        <div className="flex-1">
+          <h1 className="text-2xl font-bold mb-4">
             Discover, Collect, Sell, and Create your NFT
-          </div>
-          <div className="desc">
+          </h1>
+          <p className="text-lg mb-4">
             Digital marketplace for crypto collectibles and non-fungible tokens
-          </div>
-          <div className="button--container">
-            <button type="button" className="discover-button" aria-label="Explore NFTs">
+          </p>
+          <div className="flex space-x-4">
+            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
               Explore
             </button>
-            <button type="button" className="create-button" aria-label="Create NFT">
+            <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
               Create
             </button>
           </div>
         </div>
-        <div className={getClassNames("featured")}>
-          <Image className="featured-image" src={Featured} alt="Featured NFT image" />
-          <div className="ft--container">
-            <div className="ft--user-container">
-              <Image src={Avatar} alt="Avatar of NFT creator John Abraham" />
-              <div>John Abraham</div>
-              <div className="status-indicator" aria-label="Online status"></div>
-            </div>
-            <div className="ft--title">Brighten LQ</div>
-            <div className="ft--auction">
-              <div>Auction time</div>
-              <div className="current-bid">
-                <div>Current Bid</div>
-                <div>:</div>
-                <div className="bid-value">1.50 SOL</div>
+        <div className="flex flex-col items-center mt-6 md:mt-0">
+          {isClient && (
+            <>
+              <Image
+                className="rounded-lg"
+                src={Featured}
+                alt="Featured NFT image"
+                unoptimized
+              />
+              <div className="flex items-center mt-4">
+                <Image src={Avatar} alt="Avatar of NFT creator John Abraham" unoptimized />
+                <span className="ml-2 text-sm">John Abraham</span>
               </div>
-            </div>
-            <div className="vals">
-              <div>3h 1m 50s</div>
-              <div>20 SOL</div>
-            </div>
-            <div className="button--container">
-              <button type="button" className="place-bid-button" aria-label="Place a Bid on Brighten LQ">
-                Place a Bid
-              </button>
-              <button type="button" className="details-button" aria-label="View Details about Brighten LQ">
-                Details
-              </button>
-            </div>
+            </>
+          )}
+          <div className="mt-2 text-lg font-semibold">Brighten LQ</div>
+          <div className="flex justify-between w-full mt-2 text-sm">
+            <div>Auction Time: 3h 1m 50s</div>
+            <div>Current Bid: 20 SOL</div>
           </div>
         </div>
       </div>
-      <div className="label">
-        <div>Trending Bids</div>
-        <div className="selector">
-          <button type="button" className="selector--item selected" aria-label="Show All Bids">
-            All
-          </button>
-          <button type="button" className="selector--item" aria-label="Show Artwork Bids">
-            Artwork
-          </button>
-          <button type="button" className="selector--item" aria-label="Show Music Bids">
-            Music
-          </button>
-        </div>
-      </div>
-      <Trending displayMode={displayMode} data={data} />
+      <Trending data={data} />
     </main>
   );
 };

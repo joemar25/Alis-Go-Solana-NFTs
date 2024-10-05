@@ -1,54 +1,73 @@
-import "./header.css";
+"use client";
 
-import Display from "./images/darkDisplay.svg";
-import lmDisplay from "./images/lightDisplay.svg";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { Moon, Sun } from "lucide-react";
+import Image from "next/image";
+import { WalletDisconnectButton, WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+
 import Notifications from "./images/Notifications.svg";
 import Avatar from "./images/Avatar.svg";
 
-import {
-  WalletDisconnectButton,
-  WalletMultiButton,
-} from "@solana/wallet-adapter-react-ui";
+const Header = () => {
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
 
-import Image from "next/image";
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-interface HeaderProps {
-  displayMode: 'dark' | 'light';
-  setDisplayMode: React.Dispatch<React.SetStateAction<'dark' | 'light'>>;
-}
+  if (!mounted) {
+    // Returning a fallback during the initial render to prevent hydration errors
+    return (
+      <header className="flex items-center justify-between py-4 px-6 bg-gray-800 shadow-md">
+        <input
+          type="search"
+          placeholder="Search..."
+          aria-label="Search"
+          className="rounded-lg p-2 w-1/3 text-gray-900"
+        />
+        <div className="flex items-center space-x-4">
+          {/* Placeholder for theme icon to avoid mismatch */}
+          <div className="w-6 h-6 bg-gray-500 rounded-full" />
+          <div className="w-6 h-6 bg-gray-500 rounded-full" />
+        </div>
+      </header>
+    );
+  }
 
-const Header: React.FC<HeaderProps> = ({
-  displayMode,
-  setDisplayMode,
-}) => {
-  const handleClick = () => {
-    setDisplayMode(displayMode === "dark" ? "light" : "dark");
+  const ICON_SIZE = 18;
+
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
   };
-
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      handleClick();
-    }
-  };
-
-  const displayIcon = displayMode === "dark" ? Display : lmDisplay;
-  const searchClass = displayMode === "dark" ? "search" : "search-lm";
 
   return (
-    <header className="header--container">
-      <input className={searchClass} type="search" placeholder="Search..." aria-label="Search" />
-      <div className="img--container">
-        <Image
-          onClick={handleClick}
-          onKeyDown={handleKeyDown}
-          src={displayIcon}
-          alt="Toggle Display Mode"
-          role="button"
-          tabIndex={0}
-          aria-label={`Switch to ${displayMode === "dark" ? "light" : "dark"} mode`}
-        />
-        <Image src={Notifications} alt="Notifications" aria-label="View Notifications" />
-        <Image src={Avatar} alt="User Avatar" aria-label="User Profile" />
+    <header className="flex items-center justify-between py-4 px-6 bg-gray-800 dark:bg-gray-900 shadow-md">
+      <input
+        type="search"
+        placeholder="Search..."
+        aria-label="Search"
+        className="rounded-lg p-2 w-1/3 text-gray-900"
+      />
+      <div className="flex items-center space-x-4">
+        <button
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+          className="flex items-center justify-center p-2 rounded-full transition-colors hover:bg-gray-700"
+        >
+          {theme === "light" ? (
+            <Sun size={ICON_SIZE} className="text-yellow-500" />
+          ) : (
+            <Moon size={ICON_SIZE} className="text-gray-400" />
+          )}
+        </button>
+        {mounted && (
+          <>
+            <Image src={Notifications} alt="Notifications" aria-label="View Notifications" unoptimized />
+            <Image src={Avatar} alt="User Avatar" aria-label="User Profile" unoptimized />
+          </>
+        )}
         <WalletMultiButton aria-label="Connect Wallet" />
         <WalletDisconnectButton aria-label="Disconnect Wallet" />
       </div>
@@ -56,4 +75,4 @@ const Header: React.FC<HeaderProps> = ({
   );
 };
 
-export default Header;
+export { Header };

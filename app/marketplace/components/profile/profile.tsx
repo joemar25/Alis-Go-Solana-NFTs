@@ -1,22 +1,28 @@
+import React, { useEffect, useState } from "react";
 import "./profile.css";
 import pfp from "../header/images/Avatar.svg";
 import Verify from "./images/Verify.svg";
 import TWOFA from "./images/2FA.svg";
 import Avatar from "./images/Avatar.svg";
 import NFT from "../card/images/NFT.svg";
-
 import Image from "next/image";
 
-const Profile = ({ displayMode }: { displayMode: string }) => {
-    const unverif = "Looks like you are not verified yet. Verify yourself to use the full potential of NFT Marketplace.";
+const Profile: React.FC = () => {
+    const [isClient, setIsClient] = useState(false);
 
-    const getClassNames = (baseClass: string) =>
-        displayMode === "dark" ? baseClass : `${baseClass}-lm`;
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
-    const Following = ({ username, items }: { username: string; items: number }) => (
-        <div className={getClassNames("following--container")}>
+    const unverif =
+        "Looks like you are not verified yet. Verify yourself to use the full potential of NFT Marketplace.";
+
+    const Following: React.FC<{ username: string; items: number }> = ({ username, items }) => (
+        <div className="following--container dark:bg-gray-800 dark:text-white bg-white text-black">
             <div className="following">
-                <Image src={Avatar} alt={`Avatar of ${username}`} />
+                {isClient && (
+                    <Image src={Avatar} alt={`Avatar of ${username}`} unoptimized />
+                )}
                 <div>
                     <h1>{username}</h1>
                     <div>{items} items</div>
@@ -28,24 +34,32 @@ const Profile = ({ displayMode }: { displayMode: string }) => {
         </div>
     );
 
-    const Purchased = ({ nftName, owner }: { nftName: string; owner: string }) => (
+    const Purchased: React.FC<{ nftName: string; owner: string }> = ({ nftName, owner }) => (
         <div className="purchased-item">
-            <Image className="nft-image" src={NFT} alt={`Purchased NFT: ${nftName}`} />
-            <Image className="avatar-image" src={Avatar} alt={`Owner avatar: ${owner}`} />
+            {isClient && (
+                <>
+                    <Image className="nft-image" src={NFT} alt={`Purchased NFT: ${nftName}`} unoptimized />
+                    <Image className="avatar-image" src={Avatar} alt={`Owner avatar: ${owner}`} unoptimized />
+                </>
+            )}
             <h1>{nftName}</h1>
         </div>
     );
 
-    const Collection = ({ collectionName, owner }: { collectionName: string; owner: string }) => (
+    const Collection: React.FC<{ collectionName: string; owner: string }> = ({ collectionName, owner }) => (
         <div className="collection-item">
-            <Image className="nft-image" src={NFT} alt={`NFT collection item: ${collectionName}`} />
-            <Image className="avatar-image" src={Avatar} alt={`Owner avatar: ${owner}`} />
+            {isClient && (
+                <>
+                    <Image className="nft-image" src={NFT} alt={`NFT collection item: ${collectionName}`} unoptimized />
+                    <Image className="avatar-image" src={Avatar} alt={`Owner avatar: ${owner}`} unoptimized />
+                </>
+            )}
             <h1>{collectionName}</h1>
         </div>
     );
 
     return (
-        <main className={getClassNames("profile--container")}>
+        <main className="profile--container dark:bg-gray-800 dark:text-white bg-white text-black">
             <h1>Profile</h1>
             <div className="label--container">
                 <div>Welcome to your Profile</div>
@@ -56,17 +70,17 @@ const Profile = ({ displayMode }: { displayMode: string }) => {
                 </div>
             </div>
             <div className="account--info">
-                <div className={getClassNames("verif--container")}>
-                    <Image src={pfp} alt="Profile picture of Jane Doe" />
+                <div className="verif--container dark:bg-gray-700 dark:text-white bg-gray-100 text-black">
+                    {isClient && <Image src={pfp} alt="Profile picture of Jane Doe" unoptimized />}
                     <h1>Welcome, Jane Doe</h1>
                     <div className="verif--desc">{unverif}</div>
                     <div className="verif--action">
-                        <Image src={Verify} alt="Verification badge" />
+                        {isClient && <Image src={Verify} alt="Verification badge" unoptimized />}
                         <div>Verify account</div>
                     </div>
                     <div className="divider"></div>
                     <div className="verif--action">
-                        <Image src={TWOFA} alt="Two-factor authentication setup" />
+                        {isClient && <Image src={TWOFA} alt="Two-factor authentication setup" unoptimized />}
                         <div>Two-factor Authentication (2FA)</div>
                     </div>
                 </div>

@@ -1,42 +1,34 @@
 import "./trending.css";
-import React, { ReactElement } from "react";
+import React from "react";
 import Card from "../card/card";
 
-type nftData = any[] | null;
+// Define NFT type
+type NFT = {
+  id: string;
+  title: string;
+  author: string;
+  auctionTime: string;
+  currentBid: string;
+  price: string;
+  image: string;
+};
 
-const Trending = ({
-  displayMode,
-  data,
-}: {
-  displayMode: string;
-  data?: nftData;
-}) => {
-  let trendingCards: ReactElement | any[] = (
-    <>
-      <Card displayMode={displayMode} />
-      <Card displayMode={displayMode} />
-      <Card displayMode={displayMode} />
-      <Card displayMode={displayMode} />
-      <Card displayMode={displayMode} />
-      <Card displayMode={displayMode} />
-      <Card displayMode={displayMode} />
-      <Card displayMode={displayMode} />
-    </>
+const Trending = ({ data }: { data?: NFT[] }) => {
+  const trendingCards = data && data.length > 0 ? (
+    data.map((obj, index) => (
+      <Card
+        key={obj.id || `nft-${index}`}
+        title={obj.title}
+        image={obj.image}
+        floor_price={obj.price}
+      />
+    ))
+  ) : (
+    Array.from({ length: 8 }).map((_, index) => (
+      <Card key={`placeholder-${index}`} />
+    ))
   );
 
-  if (data) {
-    trendingCards = data.map((obj) => {
-      return (
-        <Card
-          displayMode={displayMode}
-          key={obj.id}
-          title={obj.name}
-          image={obj.image}
-          floor_price={obj.floorPrice}
-        />
-      );
-    });
-  }
   return <div className="trending">{trendingCards}</div>;
 };
 
