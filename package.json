@@ -22,7 +22,7 @@
     "bs58": "^4.0.1",
     "encoding": "^0.1.13",
     "eslint-config-next": "14.2.14",
-    "next": "^14.2.14",
+    "next": "^14.2.10",
     "pino-pretty": "^11.2.2",
     "postcss": "8.4.27",
     "react": "18.3.1",
