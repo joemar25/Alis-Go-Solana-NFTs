@@ -12,12 +12,14 @@ import {
 
 import Image from "next/image";
 
-const Header = ({
+interface HeaderProps {
+  displayMode: 'dark' | 'light';
+  setDisplayMode: React.Dispatch<React.SetStateAction<'dark' | 'light'>>;
+}
+
+const Header: React.FC<HeaderProps> = ({
   displayMode,
   setDisplayMode,
-}: {
-  displayMode: string;
-  setDisplayMode: (mode: string) => void;
 }) => {
   const handleClick = () => {
     setDisplayMode(displayMode === "dark" ? "light" : "dark");

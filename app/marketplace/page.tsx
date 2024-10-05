@@ -11,30 +11,35 @@ import Settings from "./components/settings/settings";
 import { useState, useEffect } from "react";
 import { NextPage } from "next";
 
-type nftData = any[] | null;
+type NFTData = {
+  id: string;
+  title: string;
+  author: string;
+  auctionTime: string;
+  currentBid: string;
+  price: string;
+}[];
+
+type ComponentName = 'Dashboard' | 'Bid' | 'Collection' | 'Profile' | 'Settings';
+type DisplayMode = 'dark' | 'light';
 
 const Marketplace: NextPage = () => {
-  const [selectedComponent, setSelectedComponent] = useState("Dashboard");
-  const [displayMode, setDisplayMode] = useState("dark");
-  const [data, setData] = useState<nftData>(null);
+  const [selectedComponent, setSelectedComponent] = useState<ComponentName>('Dashboard');
+  const [displayMode, setDisplayMode] = useState<DisplayMode>('dark');
+  const [data, setData] = useState<NFTData>([]);
 
   useEffect(() => {
-    //fetch nft data from API route
+    // Fetch nft data from API route
     const fetchNfts = async () => {
       const res = await fetch("/api/nftData");
-      const data = await res.json();
-      setData(data.data);
+      const result = await res.json();
+      setData(result.data);
     };
 
     fetchNfts().catch(console.error);
   }, []);
 
-  let containerClass;
-  if (displayMode === "dark") {
-    containerClass = "App";
-  } else {
-    containerClass = "App-lm";
-  }
+  let containerClass = displayMode === "dark" ? "App" : "App-lm";
 
   return (
     <div className={containerClass}>
