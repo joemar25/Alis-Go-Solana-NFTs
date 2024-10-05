@@ -2,7 +2,6 @@ import "./trending.css";
 import React from "react";
 import Card from "../card/card";
 
-// Define NFT type
 type NFT = {
   id: string;
   title: string;
@@ -29,7 +28,11 @@ const Trending = ({ data }: { data?: NFT[] }) => {
     ))
   );
 
-  return <div className="trending">{trendingCards}</div>;
+  return (
+    <div className="trending-container">
+      <div className="trending">{trendingCards}</div>
+    </div>
+  );
 };
 
 export default Trending;

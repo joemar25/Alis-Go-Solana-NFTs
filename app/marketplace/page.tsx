@@ -34,7 +34,7 @@ const Marketplace: NextPage = () => {
 
         const transformedData = result.data.map((nft: any) => ({
           ...nft,
-          image: nft.image || "/path/to/default/image.svg",
+          image: nft.image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT96E2k4NhPGA8ZjCfy6426qdebPFYwlM2IZg&s",
         }));
 
         setData(transformedData);
@@ -64,11 +64,13 @@ const Marketplace: NextPage = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar selectedComponent={selectedComponent} changeComponent={setSelectedComponent} />
-      <div className="flex-1 p-6">
+      <div className="flex-1 ml-20 flex flex-col overflow-hidden">
         <Header />
-        {renderComponent()}
+        <main className="flex-1 overflow-y-auto p-6">
+          {renderComponent()}
+        </main>
       </div>
     </div>
   );
