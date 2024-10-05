@@ -32,16 +32,16 @@ body {
   width: 120rem;
   background-color: #131129;
 
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .App-lm {
   display: flex;
   height: 67.5rem;
   width: 120rem;
-  background-color: #BCBCBC;
+  background-color: #bcbcbc;
 
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .container {
