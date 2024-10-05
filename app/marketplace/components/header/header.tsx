@@ -17,13 +17,15 @@ const Header = ({
   setDisplayMode,
 }: {
   displayMode: string;
-  setDisplayMode: Function;
+  setDisplayMode: (mode: string) => void;
 }) => {
   const handleClick = () => {
-    if (displayMode === "dark") {
-      setDisplayMode("light");
-    } else {
-      setDisplayMode("dark");
+    setDisplayMode(displayMode === "dark" ? "light" : "dark");
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      handleClick();
     }
   };
 
@@ -32,19 +34,21 @@ const Header = ({
 
   return (
     <header className="header--container">
-      <input className={searchClass} type="search" placeholder="Search..." />
+      <input className={searchClass} type="search" placeholder="Search..." aria-label="Search" />
       <div className="img--container">
         <Image
           onClick={handleClick}
+          onKeyDown={handleKeyDown}
           src={displayIcon}
           alt="Toggle Display Mode"
           role="button"
           tabIndex={0}
+          aria-label={`Switch to ${displayMode === "dark" ? "light" : "dark"} mode`}
         />
-        <Image src={Notifications} alt="Notifications" />
-        <Image src={Avatar} alt="User Avatar" />
-        <WalletMultiButton />
-        <WalletDisconnectButton />
+        <Image src={Notifications} alt="Notifications" aria-label="View Notifications" />
+        <Image src={Avatar} alt="User Avatar" aria-label="User Profile" />
+        <WalletMultiButton aria-label="Connect Wallet" />
+        <WalletDisconnectButton aria-label="Disconnect Wallet" />
       </div>
     </header>
   );

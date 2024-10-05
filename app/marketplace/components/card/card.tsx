@@ -20,8 +20,14 @@ const Card = ({
 
   return (
     <div className={cardContainerClass}>
-      <div className="nft-image-container self-center rounded-lg h-150px w-150px">
-        <Image width={125} height={125} src={image ? image : NFT} alt="NFT image" />
+      <div className="nft-image-container">
+        <Image
+          width={125}
+          height={125}
+          src={image ? image : NFT}
+          alt={title ? `${title} NFT image` : "NFT image"}
+          unoptimized={image?.endsWith('.gif')} // Optionally unoptimized if animated
+        />
       </div>
       <div className="title">{title || "Liquid Wave"}</div>
       <div className="info--container">
@@ -33,9 +39,15 @@ const Card = ({
       </div>
       <div className="vals">
         <div>3h 1m 50s</div>
-        <div>{floor_price ? (Number(floor_price) / LAMPORTS_PER_SOL).toFixed(2) : "20"} SOL</div>
+        <div>{floor_price ? (Number(floor_price) / LAMPORTS_PER_SOL).toFixed(2) : "20.00"} SOL</div>
       </div>
-      <button type="button" className="bid-button">Place a Bid</button>
+      <button
+        type="button"
+        className="bid-button"
+        aria-label={`Place a bid on ${title || "Liquid Wave"}`}
+      >
+        Place a Bid
+      </button>
     </div>
   );
 };

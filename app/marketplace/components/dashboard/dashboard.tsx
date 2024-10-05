@@ -5,27 +5,31 @@ import Avatar from "./images/Avatar.svg";
 
 import Image from "next/image";
 
-type nftData = any[] | null;
+type NFTData = {
+  id: string;
+  title: string;
+  author: string;
+  auctionTime: string;
+  currentBid: string;
+  price: string;
+}[];
 
 const Dashboard = ({
   displayMode,
   data,
 }: {
   displayMode: string;
-  data: nftData;
+  data: NFTData;
 }) => {
-  // Simplified class assignments based on displayMode
-  const classes = {
-    featuredClass: displayMode === "dark" ? "featured" : "featured-lm",
-    contContainerClass: displayMode === "dark" ? "cont--container" : "cont--container-lm",
-    discTitleClass: displayMode === "dark" ? "disc--title" : "disc--title-lm",
-  };
+  // Utility function to return classes based on displayMode
+  const getClassNames = (baseClass: string) =>
+    displayMode === "dark" ? baseClass : `${baseClass}-lm`;
 
   return (
-    <main className={classes.contContainerClass}>
+    <main className={getClassNames("cont--container")}>
       <div className="discover--container">
         <div className="discover">
-          <div className={classes.discTitleClass}>
+          <div className={getClassNames("disc--title")}>
             Discover, Collect, Sell, and Create your NFT
           </div>
           <div className="desc">
@@ -40,11 +44,11 @@ const Dashboard = ({
             </button>
           </div>
         </div>
-        <div className={classes.featuredClass}>
+        <div className={getClassNames("featured")}>
           <Image className="featured-image" src={Featured} alt="Featured NFT image" />
           <div className="ft--container">
             <div className="ft--user-container">
-              <Image src={Avatar} alt="Avatar of user John Abraham" />
+              <Image src={Avatar} alt="Avatar of NFT creator John Abraham" />
               <div>John Abraham</div>
               <div className="status-indicator" aria-label="Online status"></div>
             </div>

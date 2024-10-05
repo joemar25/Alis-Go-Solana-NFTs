@@ -1,4 +1,8 @@
+import React from 'react';
+import Image from "next/image";
 import "./sidebar.css";
+
+// Import all images
 import Logo from "./images/Logo.svg";
 import Dashboard from "./images/DashBoard.svg";
 import Bid from "./images/Bid.svg";
@@ -11,70 +15,66 @@ import selectedBid from "./images/selectedBid.svg";
 import selectedCollection from "./images/selectedCollection.svg";
 import selectedProfile from "./images/selectedProfile.svg";
 
-import Image from "next/image";
+// Define types
+type ComponentName = 'Dashboard' | 'Bid' | 'Collection' | 'Profile' | 'Settings';
+type DisplayMode = 'dark' | 'light';
 
-const Sidebar = ({
+interface SidebarProps {
+  selectedComponent: ComponentName;
+  changeComponent: (component: ComponentName) => void;
+  displayMode: DisplayMode;
+}
+
+interface NavItem {
+  name: ComponentName;
+  icon: string;
+  selectedIcon: string;
+  label: string;
+}
+
+const navItems: NavItem[] = [
+  { name: 'Dashboard', icon: Dashboard, selectedIcon: selectedDashboard, label: 'Dashboard' },
+  { name: 'Bid', icon: Bid, selectedIcon: selectedBid, label: 'Bidding' },
+  { name: 'Collection', icon: Collection, selectedIcon: selectedCollection, label: 'Collection' },
+  { name: 'Profile', icon: Profile, selectedIcon: selectedProfile, label: 'User Profile' },
+  { name: 'Settings', icon: Settings, selectedIcon: Settings, label: 'Settings' },
+];
+
+const Sidebar: React.FC<SidebarProps> = ({
   selectedComponent,
   changeComponent,
   displayMode,
-}: {
-  selectedComponent: string;
-  changeComponent: Function;
-  displayMode: string;
 }) => {
-  const handleClick = (component: string) => {
-    console.log(component);
-    changeComponent(component);
-  };
-
-  let containerClass;
-  if (displayMode === "dark") {
-    containerClass = "sb--container";
-  } else {
-    containerClass = "sb--container-lm";
-  }
+  const containerClass = displayMode === "dark" ? "sb--container" : "sb--container-lm";
 
   return (
-    <nav className={containerClass}>
+    <nav className={containerClass} aria-label="Main Navigation">
       <div className="sb--icon-container">
         <div id="logo">
-          <Image src={Logo} alt="logo" />
+          <Image src={Logo} alt="Company Logo" />
         </div>
-        <div id="menu">
-          <Image
-            onClick={() => handleClick("Dashboard")}
-            src={
-              selectedComponent === "Dashboard" ? selectedDashboard : Dashboard
-            }
-            alt="icon"
-          />
-          <Image
-            onClick={() => handleClick("Bid")}
-            src={selectedComponent === "Bid" ? selectedBid : Bid}
-            alt="icon"
-          />
-          <Image
-            onClick={() => handleClick("Collection")}
-            src={
-              selectedComponent === "Collection"
-                ? selectedCollection
-                : Collection
-            }
-            alt="icon"
-          />
-          <Image
-            onClick={() => handleClick("Profile")}
-            src={selectedComponent === "Profile" ? selectedProfile : Profile}
-            alt="icon"
-          />
-          <Image
-            onClick={() => handleClick("Settings")}
-            src={Settings}
-            alt="icon"
-          />
-        </div>
+        <ul id="menu" role="menu">
+          {navItems.map((item) => (
+            <li key={item.name} role="none">
+              <button
+                type="button"
+                onClick={() => changeComponent(item.name)}
+                aria-label={item.label}
+                aria-current={selectedComponent === item.name ? "page" : undefined}
+                role="menuitem"
+              >
+                <Image
+                  src={selectedComponent === item.name ? item.selectedIcon : item.icon}
+                  alt=""
+                />
+              </button>
+            </li>
+          ))}
+        </ul>
         <div id="logout">
-          <Image src={Logout} alt="icon" />
+          <button type="button" aria-label="Logout">
+            <Image src={Logout} alt="" />
+          </button>
         </div>
       </div>
     </nav>

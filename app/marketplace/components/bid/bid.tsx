@@ -1,40 +1,63 @@
+import React from "react"; // Import React for JSX support
 import "./bid.css";
-import React from "react";
 import NFT from "./images/NFT.svg";
 import Avatar from "./images/Avatar.svg";
 import Image from "next/image";
 
-const Bid = ({ displayMode }: { displayMode: string }) => {
-  const Panel = () => (
-    <div className="checkbox">
-      <input type="checkbox" id="select-item" aria-label="Select item" />
-      <div className="nft--container">
-        <Image className="nft-image" src={NFT} alt="NFT item" />
-        <div className="nft--details">
-          <div className="nft-name">Cute Cube Cool</div>
-          <div>John Abraham</div>
-        </div>
-      </div>
-      <div>20.50 SOL</div>
-      <div>20.50 SOL</div>
-      <div className="offer-container">
-        <Image src={Avatar} alt="User avatar" />
-        <div>20.50 SOL</div>
-      </div>
-      <div>2 Hours 1 Min 30s</div>
-      <div
-        role="button"
-        tabIndex={0}
-        aria-label="Remove item"
-        className="remove-item"
-      >
-        X
+const Panel = ({ nftName, author, price, recentOffer, timeLeft, index }: {
+  nftName: string;
+  author: string;
+  price: string;
+  recentOffer: string;
+  timeLeft: string;
+  index: number;
+}) => (
+  <div className="checkbox">
+    <label htmlFor={`select-item-${index}`} className="sr-only">Select item {nftName}</label>
+    <input
+      type="checkbox"
+      id={`select-item-${index}`}
+      aria-labelledby={`nft-name-${index}`}
+      name={`select-item-${index}`}
+    />
+    <div className="nft--container">
+      <Image className="nft-image" src={NFT} alt={`NFT item by ${author}`} />
+      <div className="nft--details" id={`nft-name-${index}`}>
+        <div className="nft-name">{nftName}</div>
+        <div>{author}</div>
       </div>
     </div>
-  );
+    <div>{price}</div>
+    <div>{recentOffer}</div>
+    <div className="offer-container">
+      <Image src={Avatar} alt="User avatar" />
+      <div>{recentOffer}</div>
+    </div>
+    <div>{timeLeft}</div>
+    <div
+      role="button"
+      tabIndex={0}
+      aria-label={`Remove item ${nftName}`}
+      className="remove-item"
+      onClick={() => alert(`Removing item: ${nftName}`)}
+    >
+      X
+    </div>
+  </div>
+);
 
+const Bid = ({ displayMode }: { displayMode: string }) => {
   const bidClass = displayMode === "dark" ? "bids--container" : "bids--container-lm";
   const panelClass = displayMode === "dark" ? "activity--panel" : "activity--panel-lm";
+
+  const panelData = Array.from({ length: 8 }).map((_, index) => ({
+    nftName: `Cute Cube Cool #${index + 1}`,
+    author: "John Abraham",
+    price: "20.50 SOL",
+    recentOffer: "20.50 SOL",
+    timeLeft: "2 Hours 1 Min 30s",
+    index,
+  }));
 
   return (
     <main className={bidClass}>
@@ -57,12 +80,13 @@ const Bid = ({ displayMode }: { displayMode: string }) => {
       </div>
       <div className="activity--container-label">
         <h1>Active Bids</h1>
-        <button type="button" className="place-bid-button">
+        <button type="button" className="place-bid-button" aria-label="Place a new bid">
           Place a Bid
         </button>
       </div>
       <div className="activity--container">
         <div className="activity--label">
+          <label htmlFor="select-all" className="sr-only">Select all items</label>
           <input type="checkbox" id="select-all" aria-label="Select all items" />
           <div>Item List</div>
           <div>Open Price</div>
@@ -73,8 +97,16 @@ const Bid = ({ displayMode }: { displayMode: string }) => {
         </div>
         <div className="activity--div"></div>
         <div className={`panel--container ${panelClass}`}>
-          {[...Array(8)].map((_, index) => (
-            <Panel key={index} />
+          {panelData.map((data) => (
+            <Panel
+              key={data.index}
+              nftName={data.nftName}
+              author={data.author}
+              price={data.price}
+              recentOffer={data.recentOffer}
+              timeLeft={data.timeLeft}
+              index={data.index}
+            />
           ))}
         </div>
       </div>
