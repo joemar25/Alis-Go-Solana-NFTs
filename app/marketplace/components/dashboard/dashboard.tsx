@@ -14,50 +14,47 @@ const Dashboard = ({
   displayMode: string;
   data: nftData;
 }) => {
-  let featuredClass;
-  let contContainerClass;
-  let discTitleClass;
-
-  if (displayMode === "dark") {
-    featuredClass = "featured";
-    contContainerClass = "cont--container";
-    discTitleClass = "disc--title";
-  } else {
-    featuredClass = "featured-lm";
-    contContainerClass = "cont--container-lm";
-    discTitleClass = "disc--title-lm";
-  }
+  // Simplified class assignments based on displayMode
+  const classes = {
+    featuredClass: displayMode === "dark" ? "featured" : "featured-lm",
+    contContainerClass: displayMode === "dark" ? "cont--container" : "cont--container-lm",
+    discTitleClass: displayMode === "dark" ? "disc--title" : "disc--title-lm",
+  };
 
   return (
-    <main className={contContainerClass}>
+    <main className={classes.contContainerClass}>
       <div className="discover--container">
-        <div id="explore" className="discover">
-          <div className={discTitleClass}>
+        <div className="discover">
+          <div className={classes.discTitleClass}>
             Discover, Collect, Sell, and Create your NFT
           </div>
-          <div id="desc">
+          <div className="desc">
             Digital marketplace for crypto collectibles and non-fungible tokens
           </div>
           <div className="button--container">
-            <button id="discover">Explore</button>
-            <button id="create">Create</button>
+            <button type="button" className="discover-button" aria-label="Explore NFTs">
+              Explore
+            </button>
+            <button type="button" className="create-button" aria-label="Create NFT">
+              Create
+            </button>
           </div>
         </div>
-        <div id="explore" className={featuredClass}>
-          <Image id="featured" src={Featured} alt="featured" />
+        <div className={classes.featuredClass}>
+          <Image className="featured-image" src={Featured} alt="Featured NFT image" />
           <div className="ft--container">
             <div className="ft--user-container">
-              <Image src={Avatar} alt="avatar" />
+              <Image src={Avatar} alt="Avatar of user John Abraham" />
               <div>John Abraham</div>
-              <div id="status"></div>
+              <div className="status-indicator" aria-label="Online status"></div>
             </div>
             <div className="ft--title">Brighten LQ</div>
             <div className="ft--auction">
               <div>Auction time</div>
-              <div id="current-bid">
+              <div className="current-bid">
                 <div>Current Bid</div>
                 <div>:</div>
-                <div id="bid">1.50 SOL</div>
+                <div className="bid-value">1.50 SOL</div>
               </div>
             </div>
             <div className="vals">
@@ -65,20 +62,28 @@ const Dashboard = ({
               <div>20 SOL</div>
             </div>
             <div className="button--container">
-              <button id="place-bid">Place a Bid</button>
-              <button id="details">Details</button>
+              <button type="button" className="place-bid-button" aria-label="Place a Bid on Brighten LQ">
+                Place a Bid
+              </button>
+              <button type="button" className="details-button" aria-label="View Details about Brighten LQ">
+                Details
+              </button>
             </div>
           </div>
         </div>
       </div>
       <div className="label">
         <div>Trending Bids</div>
-        <div id="selector">
-          <div id="selected" className="selector--item">
+        <div className="selector">
+          <button type="button" className="selector--item selected" aria-label="Show All Bids">
             All
-          </div>
-          <div className="selector--item">Artwork</div>
-          <div className="selector--item">Music</div>
+          </button>
+          <button type="button" className="selector--item" aria-label="Show Artwork Bids">
+            Artwork
+          </button>
+          <button type="button" className="selector--item" aria-label="Show Music Bids">
+            Music
+          </button>
         </div>
       </div>
       <Trending displayMode={displayMode} data={data} />

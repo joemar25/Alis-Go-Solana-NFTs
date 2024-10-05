@@ -19,34 +19,30 @@ const Header = ({
   displayMode: string;
   setDisplayMode: Function;
 }) => {
-  let displayIcon;
-  let searchId;
-
   const handleClick = () => {
     if (displayMode === "dark") {
-      displayIcon = lmDisplay;
       setDisplayMode("light");
     } else {
-      displayIcon = Display;
       setDisplayMode("dark");
     }
   };
 
-  if (displayMode === "dark") {
-    searchId = "search";
-    displayIcon = Display;
-  } else {
-    searchId = "search-lm";
-    displayIcon = lmDisplay;
-  }
+  const displayIcon = displayMode === "dark" ? Display : lmDisplay;
+  const searchClass = displayMode === "dark" ? "search" : "search-lm";
 
   return (
     <header className="header--container">
-      <input id={searchId} type="search" placeholder="Search..." />
+      <input className={searchClass} type="search" placeholder="Search..." />
       <div className="img--container">
-        <Image onClick={handleClick} src={displayIcon} alt="display" />
-        <Image src={Notifications} alt="notifs" />
-        <Image src={Avatar} alt="user" />
+        <Image
+          onClick={handleClick}
+          src={displayIcon}
+          alt="Toggle Display Mode"
+          role="button"
+          tabIndex={0}
+        />
+        <Image src={Notifications} alt="Notifications" />
+        <Image src={Avatar} alt="User Avatar" />
         <WalletMultiButton />
         <WalletDisconnectButton />
       </div>

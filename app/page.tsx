@@ -41,13 +41,13 @@ const Wallet: FC = () => {
     );
 
     return (
-      <ConnectionProvider endpoint={endpoint}>
-          <WalletProvider wallets={wallets} autoConnect>
-              <WalletModalProvider>
-                  <Marketplace />
-              </WalletModalProvider>
-          </WalletProvider>
-      </ConnectionProvider>
+        <ConnectionProvider endpoint={endpoint}>
+            <WalletProvider wallets={wallets} autoConnect>
+                <WalletModalProvider>
+                    <Marketplace />
+                </WalletModalProvider>
+            </WalletProvider>
+        </ConnectionProvider>
     );
 };
 

@@ -5,85 +5,77 @@ import Avatar from "./images/Avatar.svg";
 import Image from "next/image";
 
 const Bid = ({ displayMode }: { displayMode: string }) => {
-  const Panel = () => {
-    return (
-      <div className="checkbox">
-        <input type="checkbox" />
-        <div className="nft--container">
-          <Image id="nft" src={NFT} alt="nft" />
-          <div className="nft--details">
-            <div id="name">Cute Cube Cool</div>
-            <div>John Abraham</div>
-          </div>
+  const Panel = () => (
+    <div className="checkbox">
+      <input type="checkbox" id="select-item" aria-label="Select item" />
+      <div className="nft--container">
+        <Image className="nft-image" src={NFT} alt="NFT item" />
+        <div className="nft--details">
+          <div className="nft-name">Cute Cube Cool</div>
+          <div>John Abraham</div>
         </div>
-        <div>20.50 SOL</div>
-        <div>20.50 SOL</div>
-        <div className="offer-container">
-          <Image src={Avatar} alt="user" />
-          <div>20.50 SOL</div>
-        </div>
-        <div>2 Hours 1 Min 30s</div>
-        <div id="X">X</div>
       </div>
-    );
-  };
+      <div>20.50 SOL</div>
+      <div>20.50 SOL</div>
+      <div className="offer-container">
+        <Image src={Avatar} alt="User avatar" />
+        <div>20.50 SOL</div>
+      </div>
+      <div>2 Hours 1 Min 30s</div>
+      <div
+        role="button"
+        tabIndex={0}
+        aria-label="Remove item"
+        className="remove-item"
+      >
+        X
+      </div>
+    </div>
+  );
 
-  let bidClass;
-  let panelClass: string;
-
-  if (displayMode === "dark") {
-    bidClass = "bids--container";
-    panelClass = "activity--panel";
-  } else {
-    bidClass = "bids--container-lm";
-    panelClass = "activity--panel-lm";
-  }
+  const bidClass = displayMode === "dark" ? "bids--container" : "bids--container-lm";
+  const panelClass = displayMode === "dark" ? "activity--panel" : "activity--panel-lm";
 
   return (
     <main className={bidClass}>
       <div>
         <h1>Bids</h1>
-        <div className="lable--container">
+        <div className="label--container">
           <div>Welcome to Bids</div>
-          <div id="lable">
-            <div id="home">Home</div>
+          <div className="breadcrumb">
+            <div className="breadcrumb-item">Home</div>
             <div>{`>`}</div>
-            <div id="bids">Bids</div>
+            <div className="breadcrumb-item">Bids</div>
           </div>
         </div>
       </div>
-      <div>
-        {" "}
+      <div className="spacer">
         <div></div>
         <div></div>
         <div></div>
         <div></div>
       </div>
       <div className="activity--container-label">
-        {" "}
         <h1>Active Bids</h1>
-        <button>Place a Bid</button>
+        <button type="button" className="place-bid-button">
+          Place a Bid
+        </button>
       </div>
       <div className="activity--container">
         <div className="activity--label">
-          <input type="checkbox" />
+          <input type="checkbox" id="select-all" aria-label="Select all items" />
           <div>Item List</div>
           <div>Open Price</div>
           <div>Your Offer</div>
           <div>Recent Offer</div>
           <div>Time Left</div>
-          <div id="X">Action</div>
+          <div className="action-label">Action</div>
         </div>
         <div className="activity--div"></div>
-        <div className="panel--container">
-          <Panel />
-          <Panel />
-          <Panel />
-          <Panel />
-          <Panel />
-          <Panel />
-          <Panel />
-          <Panel />
+        <div className={`panel--container ${panelClass}`}>
+          {[...Array(8)].map((_, index) => (
+            <Panel key={index} />
+          ))}
         </div>
       </div>
     </main>
