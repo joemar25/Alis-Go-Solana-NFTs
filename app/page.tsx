@@ -1,13 +1,12 @@
-"use client"
+"use client";
 
 import React, { FC, useMemo } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets'
-import {
-    WalletModalProvider
-} from '@solana/wallet-adapter-react-ui';
+import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
+import { Landing } from '@/app/landing/page'; // Adjust the path as needed
 import Marketplace from './marketplace/page';
 
 // Default styles that can be overridden by your app
@@ -36,7 +35,6 @@ const Wallet: FC = () => {
              */
             new PhantomWalletAdapter(),
         ],
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         [network]
     );
 
@@ -44,7 +42,7 @@ const Wallet: FC = () => {
         <ConnectionProvider endpoint={endpoint}>
             <WalletProvider wallets={wallets} autoConnect>
                 <WalletModalProvider>
-                    <Marketplace />
+                    <Landing />
                 </WalletModalProvider>
             </WalletProvider>
         </ConnectionProvider>

@@ -42,14 +42,14 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedComponent, changeComponent })
   }, []);
 
   return (
-    <nav className="sb--container bg-white dark:bg-gray-900 shadow-lg h-full py-8 px-4 w-20 fixed left-0 top-0">
-      <div className="sb--icon-container flex flex-col items-center space-y-6">
+    <nav className="fixed top-0 left-0 w-20 h-full px-4 py-8 bg-white shadow-lg sb--container dark:bg-gray-900">
+      <div className="flex flex-col items-center space-y-6 sb--icon-container">
         {isClient && (
           <div className="mb-8">
             <Image src={Logo} alt="Company Logo" unoptimized className="w-10 h-10" />
           </div>
         )}
-        <ul id="menu" role="menu" className="space-y-4 w-full">
+        <ul id="menu" role="menu" className="w-full space-y-4">
           {navItems.map((item) => (
             <li key={item.name} role="none">
               <button

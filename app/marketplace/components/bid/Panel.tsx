@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import NFT from "./images/NFT.svg";
 import Avatar from "./images/Avatar.svg";
+import "./panel.css";
 
 const Panel = ({
     nftName,
@@ -25,7 +26,7 @@ const Panel = ({
     }, []);
 
     return (
-        <div className="checkbox">
+        <div className="activity--panel">
             <label htmlFor={`select-item-${index}`} className="sr-only">
                 Select item {nftName}
             </label>
@@ -34,6 +35,7 @@ const Panel = ({
                 id={`select-item-${index}`}
                 aria-labelledby={`nft-name-${index}`}
                 name={`select-item-${index}`}
+                className="checkbox-input"
             />
             <div className="nft--container">
                 {isClient && (
@@ -46,18 +48,23 @@ const Panel = ({
                 )}
                 <div className="nft--details" id={`nft-name-${index}`}>
                     <div className="nft-name">{nftName}</div>
-                    <div>{author}</div>
+                    <div className="nft-author">{author}</div>
                 </div>
             </div>
-            <div>{price}</div>
-            <div>{recentOffer}</div>
+            <div className="price">{price}</div>
+            <div className="recent-offer">{recentOffer}</div>
             <div className="offer-container">
                 {isClient && (
-                    <Image src={Avatar} alt="User avatar" unoptimized />
+                    <Image
+                        src={Avatar}
+                        alt="User avatar"
+                        unoptimized
+                        className="avatar"
+                    />
                 )}
                 <div>{recentOffer}</div>
             </div>
-            <div>{timeLeft}</div>
+            <div className="time-left">{timeLeft}</div>
             <div
                 role="button"
                 tabIndex={0}
@@ -70,7 +77,7 @@ const Panel = ({
                     }
                 }}
             >
-                X
+                ✖
             </div>
         </div>
     );

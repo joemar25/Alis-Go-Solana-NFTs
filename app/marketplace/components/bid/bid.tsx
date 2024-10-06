@@ -19,16 +19,13 @@ const Bid: React.FC = () => {
   }));
 
   return (
-    <main className="bids--container dark:bg-gray-800 dark:text-white bg-white text-black">
-      <div>
-        <h1>Bids</h1>
-        <div className="label--container">
-          <div>Welcome to Bids</div>
-          <div className="breadcrumb">
-            <div className="breadcrumb-item">Home</div>
-            <div>{`>`}</div>
-            <div className="breadcrumb-item">Bids</div>
-          </div>
+    <main className="bids--container">
+      <div className="header--section">
+        <h1 className="title">Bids</h1>
+        <div className="breadcrumb">
+          <div className="breadcrumb-item">Home</div>
+          <span className="breadcrumb-divider">{`>`}</span>
+          <div className="breadcrumb-item">Bids</div>
         </div>
       </div>
       <div className="activity--container">
